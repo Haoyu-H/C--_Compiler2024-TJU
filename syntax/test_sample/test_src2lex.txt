@@ -1,0 +1,5 @@
+int a = 9;
+int main(){
+a=9;
+return 0;
+}

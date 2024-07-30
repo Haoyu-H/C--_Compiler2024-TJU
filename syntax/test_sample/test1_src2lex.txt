@@ -1,0 +1,5 @@
+int a = 9 , b = a + 1;
+int main(){
+ float c = a + b + 0.1;
+return 0;
+}

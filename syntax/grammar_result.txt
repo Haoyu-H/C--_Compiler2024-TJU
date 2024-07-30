@@ -1,0 +1,60 @@
+Program -> compUnit
+compUnit -> int compUnit' | void Ident ( funcFParams' compUnit EOF | constDecl compUnit EOF | float varDef varDefList ; compUnit EOF | ε
+compUnit' -> Ident compUnits
+compUnits -> varInit varDefList ; compUnit EOF | ( funcFParams' compUnit EOF
+decl -> constDecl | varDecl
+constDecl -> const bType constDef constDefList ;
+constDefList -> , constDef constDefList | ε
+constDef -> Ident = constInitVal
+constInitVal -> constExp
+varDecl -> bType varDef varDefList ;
+varDefList -> , varDef varDefList | ε
+varDef -> Ident varInit
+varInit -> = initVal | ε
+initVal -> exp
+funcDefList -> funcDef funcDefList | ε
+funcDef -> funcType Ident ( funcFParams'
+funcFParams' -> ) block | funcFParams ) block
+funcType -> void | int
+funcFParams -> funcFParam funcFParamList
+funcFParamList -> , funcFParam funcFParamList | ε
+funcFParam -> bType Ident
+block -> { blockItems }
+blockItems -> blockItem blockItems | ε
+blockItem -> decl | stmt
+stmt -> lVal = exp ; | exp ; | block | if ( cond ) stmt else stmt | if ( cond ) stmt | return exp ; | return ;
+exp -> addExp exp'
+exp' -> addOp addExp exp' | ε
+addOp -> + | -
+cond -> lOrExp cond'
+cond' -> && lOrExp cond' | || lOrExp cond' | ε
+lVal -> Ident
+primaryExp -> ( exp ) | lVal | number | funcCall
+funcCall -> Ident ( funcRParams ) | Ident ( )
+number -> IntConst | floatConst
+IntConst -> INT
+floatConst -> FLOAT
+funcRParams -> funcRParam funcRParamList
+funcRParamList -> , funcRParam funcRParamList | ε
+funcRParam -> exp
+mulExp -> unaryExp mulExp'
+mulExp' -> mulOp unaryExp mulExp' | ε
+mulOp -> * | / | %
+addExp -> mulExp addExp'
+addExp' -> addOp mulExp addExp' | ε
+relExp -> addExp relExp'
+relExp' -> relOp addExp relExp' | ε
+relOp -> < | > | <= | >=
+eqExp -> relExp eqExp'
+eqExp' -> eqOp relExp eqExp' | ε
+eqOp -> == | !=
+lAndExp -> eqExp lAndExp'
+lAndExp' -> && eqExp lAndExp' | ε
+lOrExp -> lAndExp lOrExp'
+lOrExp' -> || lAndExp lOrExp' | ε
+constExp -> addExp
+bType -> int | float
+Ident -> IDN | KW
+unaryExp -> primaryExp | Ident ( unaryExp' | unaryOp unaryExp
+unaryExp' -> ) | funcRParams )
+unaryOp -> + | - | !

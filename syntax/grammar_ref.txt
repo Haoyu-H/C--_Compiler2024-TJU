@@ -1,0 +1,110 @@
+Program -> compUnit
+compUnit -> int compUnit'
+compUnit -> void Ident ( funcFParams' compUnit EOF
+compUnit -> constDecl compUnit EOF
+compUnit -> float varDef varDefList ; compUnit EOF 
+compUnit -> ε
+compUnit' -> Ident compUnits
+compUnits -> varInit varDefList ; compUnit EOF
+compUnits -> ( funcFParams' compUnit EOF
+decl -> constDecl
+decl -> varDecl
+constDecl -> const bType constDef constDefList ;
+constDefList -> , constDef constDefList
+constDefList -> ε
+constDef -> Ident = constInitVal
+constInitVal -> constExp
+varDecl -> bType varDef varDefList ;
+varDefList -> , varDef varDefList
+varDefList -> ε
+varDef -> Ident varInit
+varInit -> = initVal
+varInit -> ε
+initVal -> exp
+funcDefList -> funcDef funcDefList
+funcDefList -> ε
+funcDef -> funcType Ident ( funcFParams'
+funcFParams' -> ) block
+funcFParams' -> funcFParams ) block
+funcType -> void
+funcType -> int
+funcFParams -> funcFParam funcFParamList
+funcFParamList -> , funcFParam funcFParamList
+funcFParamList -> ε
+funcFParam -> bType Ident
+block -> { blockItems }
+blockItems -> blockItem blockItems 
+blockItems -> ε
+blockItem -> decl 
+blockItem -> stmt
+stmt -> lVal = exp ;
+stmt -> exp ;
+stmt -> block
+stmt -> if ( cond ) stmt else stmt
+stmt -> if ( cond ) stmt 
+stmt -> return exp ;
+stmt -> return ;
+exp -> addExp exp'
+exp' -> addOp addExp exp'
+exp' -> ε
+addOp -> +
+addOp -> -
+cond -> lOrExp cond'
+cond' -> && lOrExp cond'
+cond' -> || lOrExp cond'
+cond' -> ε
+lVal -> Ident
+primaryExp -> ( exp )
+primaryExp -> lVal
+primaryExp -> number
+primaryExp -> funcCall
+funcCall -> Ident ( funcRParams )
+funcCall -> Ident ( )
+number -> IntConst
+number -> floatConst
+IntConst -> INT
+floatConst -> FLOAT
+funcRParams -> funcRParam funcRParamList
+funcRParamList -> , funcRParam funcRParamList
+funcRParamList -> ε
+funcRParam -> exp
+mulExp -> unaryExp mulExp'
+mulExp' -> mulOp unaryExp mulExp'
+mulExp' -> ε
+mulOp -> *
+mulOp -> /
+mulOp -> %
+addExp -> mulExp addExp'
+addExp' -> addOp mulExp addExp'
+addExp' -> ε
+relExp -> addExp relExp'
+relExp' -> relOp addExp relExp'
+relExp' -> ε
+relOp -> <
+relOp -> >
+relOp -> <=
+relOp -> >=
+eqExp -> relExp eqExp'
+eqExp' -> eqOp relExp eqExp'
+eqExp' -> ε
+eqOp -> ==
+eqOp -> !=
+lAndExp -> eqExp lAndExp'
+lAndExp' -> && eqExp lAndExp'
+lAndExp' -> ε
+lOrExp -> lAndExp lOrExp'
+lOrExp' -> || lAndExp lOrExp'
+lOrExp' -> ε
+constExp -> addExp
+bType -> int
+bType -> float
+Ident -> IDN
+Ident -> KW
+unaryExp -> primaryExp
+unaryExp -> Ident ( unaryExp'
+unaryExp' -> )
+unaryExp' -> funcRParams )
+unaryExp -> unaryOp unaryExp
+unaryOp -> +
+unaryOp -> -
+unaryOp -> !
